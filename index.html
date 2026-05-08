@@ -4,61 +4,391 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2FW9PR1BZX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
         gtag('config', 'G-2FW9PR1BZX');
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remote Working Manifesto</title>
-    <meta name="description" content="Remote Working Manifesto" />
-    <link rel="stylesheet" href="https://remoteworkingmanifesto.com/assets/simple.min.css">
+    <meta name="description" content="Remote Working Manifesto"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+          rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #1a1816;
+            --ink-mid: #4a4742;
+            --ink-light: #8c8880;
+            --paper: #f7f4ef;
+            --paper-warm: #efe9de;
+            --accent: #b85c2a;
+            --rule: rgba(26, 24, 22, 0.12);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── grain texture overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.5;
+        }
+
+        /* ── layout ── */
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+        }
+
+        /* ── header ── */
+        header {
+            padding: 5rem 0 3rem;
+            border-bottom: 0.5px solid var(--rule);
+            position: relative;
+        }
+
+        .eyebrow {
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            margin-bottom: 1.25rem;
+            font-weight: 400;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(52px, 9vw, 96px);
+            font-weight: 300;
+            line-height: 0.95;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .header-aside {
+            position: absolute;
+            right: 0;
+            top: 5rem;
+            writing-mode: vertical-rl;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+        }
+
+        /* ── pillars strip ── */
+        .pillars {
+            display: flex;
+            gap: 0;
+            border-bottom: 0.5px solid var(--rule);
+        }
+
+        .pillar {
+            flex: 1;
+            padding: 1rem 0;
+            text-align: center;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink-mid);
+            font-weight: 400;
+            border-right: 0.5px solid var(--rule);
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .pillar:last-child {
+            border-right: none;
+        }
+
+        .pillar:hover {
+            color: var(--accent);
+            background: rgba(184, 92, 42, 0.04);
+        }
+
+        /* ── intro ── */
+        .intro {
+            padding: 3.5rem 0 2.5rem;
+            border-bottom: 0.5px solid var(--rule);
+        }
+
+        .intro p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 300;
+            line-height: 1.65;
+            color: var(--ink-mid);
+            max-width: 680px;
+        }
+
+        .intro p em {
+            color: var(--ink);
+            font-style: italic;
+        }
+
+        /* ── section labels ── */
+        .section {
+            padding-top: 3rem;
+        }
+
+        .section-label {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 0.5px;
+            background: var(--rule);
+        }
+
+        /* ── principles ── */
+        .principle {
+            display: block;
+            padding: 1.5rem 0;
+            border-bottom: 0.5px solid var(--rule);
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .principle:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .principle:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        .principle:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .principle:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        .principle:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .principle:nth-child(6) {
+            animation-delay: 0.30s;
+        }
+
+        .principle:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .principle-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            font-style: italic;
+            color: var(--ink-light);
+            padding-top: 3px;
+        }
+
+        .principle-body {
+            padding-right: 1rem;
+        }
+
+        .principle-body p {
+            font-size: 15px;
+            line-height: 1.75;
+            color: var(--ink);
+            font-weight: 300;
+        }
+
+        .principle-body strong {
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .principle:hover .principle-num {
+            color: var(--accent);
+            transition: color 0.2s;
+        }
+
+        /* ── footer ── */
+        footer {
+            padding: 3rem 0 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-mark {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--ink-light);
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: var(--ink-light);
+            letter-spacing: 0.08em;
+            text-align: right;
+            line-height: 1.8;
+        }
+
+        /* ── page load fade ── */
+        .page {
+            animation: pageFade 0.6s ease both;
+        }
+
+        @keyframes pageFade {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .header-aside {
+                display: none;
+            }
+
+            .page {
+                padding: 0 1.5rem;
+            }
+
+            .principle {
+                grid-template-columns: 36px 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<main class="page">
+
     <header>
         <h1>Remote Working Manifesto</h1>
-        <nav>
-            <a href="https://remoteworkingmanifesto.com/">Home</a>
-            <a href="https://remoteworkingmanifesto.com/contribute/">Contribute</a>
-        </nav>
     </header>
-    <main>
-        <h2>
-            Remote Working Manifesto
-        </h2>
-        <p>
-            <i>
-                We are uncovering better ways to organize the way we work remotely.<br/>
-                In our journey, we consider the following key assumptions.
-            </i>
-        </p>
-        <p>
-            <strong>Freedom, Trust, Transparency, and Ownership</strong> are the foundations of remote working.
-        <p/>
-        <p>
-            We value <strong>life-work balance</strong>, and remote working doesn't mean being always available: organize your work time for a more balanced life.
-        </p>
-        <p>
-            We should never forget we are working with <strong>human beings</strong>. <strong>Building relationships</strong> is an essential part of our life and work, and technology can bring us closer: it's up to us to use it well.
-        </p>
-        <p>
-            We value <strong>environmental sustainability</strong>, and we strongly believe in remote working as a long-term solution for stopping the overpopulation of urban areas and the decay of rural ones.
-        </p>
-        <p>
-            Forcing people to commute wastes energy: <strong>reduce your daily carbon footprint</strong>.
-        </p>
-        <p>
-            Forcing people to commute wastes time: live where you want, and <strong>spend your time with your loved ones</strong>.
-        </p>
-        <p>
-            Value is produced by <strong>achieving results</strong>, not by spending time at the office: reaching goals are more important than 9 to 5.
-        </p>
-        <p>
-            We value <strong>asynchronous communication</strong>, achieved with the most convenient tools. It doesn't matter where or when your work happens: more <strong>flexible working hours</strong> will make the team happier and produce higher quality results.
-        </p>
-    </main>
+
+    <section class="intro" aria-label="Introduction">
+        <p>We are uncovering better ways to organize the way we work remotely.<br>In our journey, we consider the
+            following key assumptions.</p>
+    </section>
+
+    <!-- People & Balance -->
+    <section class="section" aria-labelledby="label-people">
+        <p class="section-label" id="label-people">People &amp; Balance</p>
+
+        <div class="principle">
+            <div class="principle-body">
+                <p>We value <strong>life-work balance</strong>. Remote working does not mean being always available —
+                    organise your time for a more balanced, intentional life.</p>
+            </div>
+        </div>
+
+        <div class="principle">
+            <div class="principle-body">
+                <p>We are always working with <strong>human beings</strong>. Building genuine relationships is essential
+                    to both life and work, and technology can bring us closer — it is up to us to use it well.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planet & Place -->
+    <section class="section" aria-labelledby="label-planet">
+        <p class="section-label" id="label-planet">Planet &amp; Place</p>
+
+        <div class="principle">
+            <div class="principle-body">
+                <p>We value <strong>environmental sustainability</strong>. Remote working is a long-term solution for
+                    reversing the overpopulation of cities and the decline of rural communities.</p>
+            </div>
+        </div>
+
+        <div class="principle">
+            <div class="principle-body">
+                <p>Forcing people to commute <strong>wastes energy</strong>. Reduce your daily carbon footprint.</p>
+            </div>
+        </div>
+
+        <div class="principle">
+            <div class="principle-body">
+                <p>Forcing people to commute <strong>wastes time</strong>. Live where you want, and spend that time with
+                    the people who matter most.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results & Communication -->
+    <section class="section" aria-labelledby="label-results">
+        <p class="section-label" id="label-results">Results &amp; Communication</p>
+
+        <div class="principle">
+            <div class="principle-body">
+                <p>Value is created by <strong>achieving results</strong>, not by occupying a desk. Reaching goals
+                    matters far more than the 9-to-5.</p>
+            </div>
+        </div>
+
+        <div class="principle">
+            <div class="principle-body">
+                <p>We value <strong>asynchronous communication</strong>, enabled by the most convenient tools. It does
+                    not matter where or when work happens — flexible hours make teams happier and produce higher quality
+                    outcomes.</p>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <p>Remote Working Manifesto | Written with 💛 &nbsp;on Planet Earth in October 2021</p>
+        <span class="footer-mark">remoteworkingmanifesto.com</span>
+        <p class="footer-note">Freedom · Trust · Transparency · Ownership</p>
     </footer>
+
+</main>
+
 </body>
 </html>
